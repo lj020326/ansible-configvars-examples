@@ -8,9 +8,9 @@
 # Note that app_config_dirs and values within app_firewalld_ports do not get dereferenced
 # perhaps related to :
 # https://github.com/ansible/ansible/issues/36024
-- name: "print app_config"
+- name: "print app_configs - after 1st method attempt to dereference"
   debug:
-    var: app_config
+    msg: "app_config = {{ hostvars[inventory_hostname].app_config }}"
 
 ### try using method described here:
 ### https://stackoverflow.com/questions/45285574/ansible-include-vars-into-dictionary
