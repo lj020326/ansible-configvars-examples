@@ -8,7 +8,7 @@
 - debug:
     var: app_service_configs
 
-- name: Combine configs into one dict
+- name: Combine firewalld app port lists into single config dict
   set_fact:
     firewalld_app_ports: "{{ firewalld_app_ports|d({}) | combine({ item: hostvars[inventory_hostname]['app_service_configs'][item].app_firewalld_ports|d([]) }) }}"
   with_items: "{{ app_services }}"
