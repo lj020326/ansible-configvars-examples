@@ -2,14 +2,22 @@
 
 - name: Set the app services vars
   include_vars:
-    dir: "app-services"
-    name: app_service_configs
+    file: "app-services/{{ item }}.yml"
+    name: "app_service_configs__{{ item }}"
+  with_items: "{{ app_services }}"
+
+- name: Evaluate each service dict
+  set_fact:
+    app_configs: "{{ app_configs|d({}) | combine({ item: hostvars[inventory_hostname]['app_service_configs__'+item]|d({}) }) }}"
+  with_items: "{{ app_services }}"
 
 - debug:
-    var: app_service_configs
+    var: app_configs
 
 - name: Combine firewalld app port lists into single config dict
   set_fact:
-    firewalld_app_ports: "{{ firewalld_app_ports|d({}) | combine({ item: hostvars[inventory_hostname]['app_service_configs'][item].app_firewalld_ports|d([]) }) }}"
+    firewalld_app_ports: "{{ firewalld_app_ports|d({}) | combine({ item: hostvars[inventory_hostname].app_configs[item].app_firewalld_ports|d([]) }) }}"
   with_items: "{{ app_services }}"
 
+- debug:
+    var: firewalld_app_ports
