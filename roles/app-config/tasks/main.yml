@@ -3,7 +3,10 @@
 - name: Set the app services vars
   include_vars:
     file: "app-simple.yml"
-    name: "default_config"
+#    name: "default_config"
+
+- debug:
+    var: app_port
 
 - name: Combine configs into one dict
   set_fact:
