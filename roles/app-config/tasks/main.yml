@@ -55,7 +55,7 @@
 - name: Combine varname configs into one dict
   set_fact:
 #    app_config_dirs: "{{ dict(app_config_dir_varnames | zip(q('vars', *app_config_dir_varnames))) }}"
-    app_config_dirs: "{{ app_config_dirs|d({}) | combine({ item: lookup('vars', q('varnames','^app_config_dirs__'+item.replace('-','_')+'$'))|d({}) }) }}"
+    app_config_dirs: "{{ app_config_dirs|d({}) | combine({ item: lookup('vars', q('varnames','^app_config_dirs__'+item.replace('-','_')+'$')| first)|d({}) }) }}"
   loop: "{{ app_services }}"
 
 - name: "print app_configs - after 3rd method attempt to dereference"
