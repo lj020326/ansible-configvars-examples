@@ -3,14 +3,18 @@
 - name: Set the app services vars
   include_vars:
     file: "app-simple.yml"
-    name: "app_config"
+    name: "default_config"
+
+- name: Combine configs into one dict
+  set_fact:
+    app_config: "{{ hostvars[inventory_hostname].default_config }}"
 
 # Note that app_config_dirs and values within app_firewalld_ports do not get dereferenced
 # perhaps related to :
 # https://github.com/ansible/ansible/issues/36024
 - name: "print app_configs - after 1st method attempt to dereference"
   debug:
-    msg: "app_config = {{ hostvars[inventory_hostname].app_config }}"
+    var: app_config
 
 ### try using method described here:
 ### https://stackoverflow.com/questions/45285574/ansible-include-vars-into-dictionary
