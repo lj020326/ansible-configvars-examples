@@ -1,6 +1,4 @@
 ---
-app_user: user123
-app_password: password234
 app_base_dir: /usr/local
 
 app_services:

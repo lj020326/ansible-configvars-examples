@@ -1,15 +1,34 @@
 ---
 
+#- name: Set the app services vars
+#  include_vars:
+#    file: "app-services/{{ item }}.yml"
+#    name: "app_service_configs__{{ item }}"
+#  with_items: "{{ app_services }}"
+
+#- name: Combine configs into one dict
+#  set_fact:
+#    app_configs: "{{ app_configs|d({}) | combine({ item: hostvars[inventory_hostname]['app_service_configs__'+item]|d({}) }) }}"
+#  with_items: "{{ app_services }}"
+
+## Note that app_config_dirs and values within app_firewalld_ports do not get dereferenced
+## perhaps related to :
+## https://github.com/ansible/ansible/issues/36024
+#- debug:
+#    var: app_configs
+
+## try using method described here:
+## https://stackoverflow.com/questions/45285574/ansible-include-vars-into-dictionary
 - name: Set the app services vars
   include_vars:
     file: "app-services/{{ item }}.yml"
-    name: "app_service_configs__{{ item }}"
+    name: "default_config"
   with_items: "{{ app_services }}"
+  register: default_configs
 
-- name: Evaluate each service dict
+- name: Combine configs into one dict
   set_fact:
-    app_configs: "{{ app_configs|d({}) | combine({ item: hostvars[inventory_hostname]['app_service_configs__'+item]|d({}) }) }}"
-  with_items: "{{ app_services }}"
+    app_configs: "{{ dict(default_configs.results | json_query('[].[item, ansible_facts.default_config]')) }}"
 
 ## Note that app_config_dirs and values within app_firewalld_ports do not get dereferenced
 ## perhaps related to :
