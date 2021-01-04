@@ -9,7 +9,7 @@ app_config_dirs:
   - { path: "{{ app_base_dir }}/app-service-b" }
 
 app_firewalld_ports:
-#  - "{{ app_http_port }}/tcp"
-#  - "{{ app_https_port }}/tcp"
-  - "10080/tcp"
-  - "10443/tcp"
+  - "{{ app_http_port }}/tcp"
+  - "{{ app_https_port }}/tcp"
+#  - "10080/tcp"
+#  - "10443/tcp"

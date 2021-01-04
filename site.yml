@@ -1,8 +1,7 @@
 ---
 
-- name: Apply tor role
+- name: Apply role
   gather_facts: no
   hosts: localhost
-
   roles:
    - app-config
