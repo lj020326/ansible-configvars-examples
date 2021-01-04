@@ -14,6 +14,9 @@
 - debug:
     var: app_config_dirs
 
+- debug:
+    var: app_firewalld_ports
+
 - name: Combine configs into one dict
   set_fact:
     app_config: "{{ hostvars[inventory_hostname].default_config }}"
