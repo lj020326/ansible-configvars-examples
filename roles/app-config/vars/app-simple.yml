@@ -3,6 +3,8 @@
 app_http_port: 3000
 app_ssh_port: 2222
 
+app_port: "{{ app_http_port }}"
+
 app_config_dirs:
   - { path: "{{ app_base_dir }}/app-service-a" }
 
