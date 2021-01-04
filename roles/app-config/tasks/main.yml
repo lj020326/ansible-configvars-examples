@@ -8,6 +8,9 @@
 - debug:
     var: app_port
 
+- debug:
+    var: app_base_dir_simple
+
 - name: Combine configs into one dict
   set_fact:
     app_config: "{{ hostvars[inventory_hostname].default_config }}"
