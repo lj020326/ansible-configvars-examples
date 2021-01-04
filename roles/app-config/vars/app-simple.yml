@@ -4,12 +4,13 @@ app_http_port: 3000
 app_ssh_port: 2222
 
 app_port: "{{ app_http_port }}"
+app_base_dir_simple: "{{ app_base_dir }}"
 
-app_config_dirs:
-  - { path: "{{ app_base_dir }}/app-service-a" }
-
-app_firewalld_ports:
-  - "{{ app_http_port }}/tcp"
-  - "{{ app_ssh_port }}/tcp"
-#  - "3000/tcp"
-#  - "2222/tcp"
+#app_config_dirs:
+#  - { path: "{{ app_base_dir }}/app-service-a" }
+#
+#app_firewalld_ports:
+#  - "{{ app_http_port }}/tcp"
+#  - "{{ app_ssh_port }}/tcp"
+##  - "3000/tcp"
+##  - "2222/tcp"
