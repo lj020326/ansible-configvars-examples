@@ -18,21 +18,15 @@
 
 ### try using method described here:
 ### https://stackoverflow.com/questions/45285574/ansible-include-vars-into-dictionary
-#- name: Set the app services vars
-#  include_vars:
-#    file: "app-services/{{ item }}.yml"
-#    name: "default_config"
-#  with_items: "{{ app_services }}"
-#  register: default_configs
-#
-#- name: Combine configs into one dict
-#  set_fact:
-#    app_configs: "{{ dict(default_configs.results | json_query('[].[item, ansible_facts.default_config]')) }}"
-#
-### Note that app_config_dirs and values within app_firewalld_ports do not get dereferenced
-### perhaps related to :
-### https://github.com/ansible/ansible/issues/36024
-#- name: "print app_configs - after 2nd method attempt to dereference"
-#  debug:
-#    var: app_configs
-#
+- name: Set the app services vars
+  include_vars:
+    file: "app-simple.yml"
+  register: app_default_config
+
+## Note that app_config_dirs and values within app_firewalld_ports do not get dereferenced
+## perhaps related to :
+## https://github.com/ansible/ansible/issues/36024
+- name: "print app_configs - after 2nd method attempt to dereference"
+  debug:
+    var: app_default_config
+
