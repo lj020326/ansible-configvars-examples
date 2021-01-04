@@ -11,6 +11,9 @@
 - debug:
     var: app_base_dir_simple
 
+- debug:
+    var: app_config_dirs
+
 - name: Combine configs into one dict
   set_fact:
     app_config: "{{ hostvars[inventory_hostname].default_config }}"
