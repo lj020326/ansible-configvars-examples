@@ -3,40 +3,7 @@
 - name: Set the app services vars
   include_vars:
     file: "app-services/{{ item }}.yml"
-#    name: "app_service_configs__{{ item }}"
   with_items: "{{ app_services }}"
-
-#- name: Combine configs into one dict
-#  set_fact:
-#    app_configs: "{{ app_configs|d({}) | combine({ item: hostvars[inventory_hostname]['app_service_configs__'+item]|d({}) }) }}"
-#  with_items: "{{ app_services }}"
-
-# Note that app_config_dirs and values within app_firewalld_ports do not get dereferenced
-# perhaps related to :
-# https://github.com/ansible/ansible/issues/36024
-#- name: "print app_configs - after 1st method attempt to dereference"
-#  debug:
-#    var: app_configs
-
-## try using method described here:
-## https://stackoverflow.com/questions/45285574/ansible-include-vars-into-dictionary
-#- name: Set the app services vars
-#  include_vars:
-#    file: "app-services/{{ item }}.yml"
-#    name: "default_config"
-#  with_items: "{{ app_services }}"
-#  register: default_configs
-
-#- name: Combine configs into one dict
-#  set_fact:
-#    app_configs: "{{ dict(default_configs.results | json_query('[].[item, ansible_facts.default_config]')) }}"
-
-## Note that app_config_dirs and values within app_firewalld_ports do not get dereferenced
-## perhaps related to :
-## https://github.com/ansible/ansible/issues/36024
-#- name: "print app_configs - after 2nd method attempt to dereference"
-#  debug:
-#    var: app_configs
 
 ## used approach detailed here:
 ##   https://stackoverflow.com/questions/35554415/in-ansible-how-to-combine-variables-from-separate-files-into-one-array
@@ -54,19 +21,10 @@
 
 - name: Combine varname configs into one dict
   set_fact:
-#    app_config_dirs: "{{ dict(app_config_dir_varnames | zip(q('vars', *app_config_dir_varnames))) }}"
     app_config_dirs: "{{ app_config_dirs|d({}) | combine({ item: lookup('vars', q('varnames','^app_config_dirs__'+item.replace('-','_')+'$')| first)|d({}) }) }}"
   loop: "{{ app_services }}"
 
 - name: "print app_configs - after 3rd method attempt to dereference"
   debug:
     var: app_config_dirs
-
-
-#- name: Combine configs into one dict
-#  set_fact:
-#    app_config_dirs: "{{ app_config_dirs|d({}) | combine({ item: app_configs[item].appspec_config_dirs|d([]) }) }}"
-#    app_config_files: "{{ app_config_files|d({}) | combine({ item: app_configs[item].appspec_config_files|d([]) }) }}"
-#    firewalld_app_ports: "{{ firewalld_app_ports|d({}) | combine({ item: app_configs[item].firewalld_appspec_ports|d([]) }) }}"
-#    app_config_dirs: "{{ app_configs|d({}) | combine({ item: lookup('varnames','app_config_dirs__'+item.replace('-','_')+'$')|d([]) }) }}"
 
