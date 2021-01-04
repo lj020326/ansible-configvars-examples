@@ -44,9 +44,12 @@
 ##   https://serverfault.com/questions/685673/appending-to-lists-or-adding-keys-to-dictionaries-in-ansible
 ##   https://docs.ansible.com/ansible/latest/user_guide/complex_data_manipulation.html
 
-- name: Combine configs into one dict
+- name: Lookup varnames to combine
   set_fact:
     app_config_dir_varnames: "{{ q('varnames', '^app_config_dirs__') }}"
+
+- name: Combine varname configs into one dict
+  set_fact:
     app_config_dirs: "{{ dict(app_config_dir_varnames | zip(q('vars', *app_config_dir_varnames))) }}"
 
 - name: "print app_configs - after 3rd method attempt to dereference"
