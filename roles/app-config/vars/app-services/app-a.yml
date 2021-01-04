@@ -1,13 +1,11 @@
 ---
 
-app_http_port: 3000
-app_ssh_port: 2222
+app_http_port__app_a: 3000
+app_ssh_port__app_a: 2222
 
-app_config_dirs:
+app_config_dirs__app_a:
   - { path: "{{ app_base_dir }}/app-service-a" }
 
-app_firewalld_ports:
-  - "{{ app_http_port }}/tcp"
-  - "{{ app_ssh_port }}/tcp"
-#  - "3000/tcp"
-#  - "2222/tcp"
+app_firewalld_ports__app_a:
+  - "{{ app_http_port__app_a }}/tcp"
+  - "{{ app_ssh_port__app_a }}/tcp"
