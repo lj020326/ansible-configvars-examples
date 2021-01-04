@@ -7,7 +7,7 @@ app_config_dirs:
   - { path: "{{ app_base_dir }}/app-service-a" }
 
 app_firewalld_ports:
-#  - "{{ app_http_port }}/tcp"
-#  - "{{ app_ssh_port }}/tcp"
-  - "3000/tcp"
-  - "2222/tcp"
+  - "{{ app_http_port }}/tcp"
+  - "{{ app_ssh_port }}/tcp"
+#  - "3000/tcp"
+#  - "2222/tcp"
