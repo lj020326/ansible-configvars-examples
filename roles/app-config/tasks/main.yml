@@ -1,0 +1,15 @@
+---
+
+- name: Set the app services vars
+  include_vars:
+    dir: "app-services"
+    name: app_service_configs
+
+- debug:
+    var: app_service_configs
+
+- name: Combine configs into one dict
+  set_fact:
+    firewalld_app_ports: "{{ firewalld_app_ports|d({}) | combine({ item: hostvars[inventory_hostname]['app_service_configs'][item].app_firewalld_ports|d([]) }) }}"
+  with_items: "{{ app_services }}"
+
