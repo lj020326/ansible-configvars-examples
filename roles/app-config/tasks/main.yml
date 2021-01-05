@@ -2,39 +2,55 @@
 
 - name: Set the app services vars
   include_vars:
-    file: "app-services/{{ item }}.yml"
-    name: "app_service_configs__{{ item }}"
-  with_items: "{{ app_services }}"
+    dir: "app-services"
+    name: "app_service_configs"
 
-- name: Combine configs into one dict
-  set_fact:
-    app_configs: "{{ app_configs|d({}) | combine({ item: hostvars[inventory_hostname]['app_service_configs__'+item]|d({}) }) }}"
-  with_items: "{{ app_services }}"
-
-# Note that app_config_dirs and values within app_firewalld_ports do not get dereferenced
-# perhaps related to :
-# https://github.com/ansible/ansible/issues/36024
-- name: "print app_configs - after 1st method attempt to dereference"
+- name: "print app_service_configs"
   debug:
-    var: app_configs
+    var: app_service_configs
 
-## try using method described here:
-## https://stackoverflow.com/questions/45285574/ansible-include-vars-into-dictionary
-- name: Set the app services vars
-  include_vars:
-    file: "app-services/{{ item }}.yml"
-    name: "default_config"
-  with_items: "{{ app_services }}"
-  register: default_configs
+- name: Set service specific vars if undefined
+  set_fact: {
+    "{{ item.key }}":
+      "{{ hostvars[inventory_hostname][item.key] | default(item.value) }}"
+  }
+  with_dict: "{{ app_service_configs }}"
 
-- name: Combine configs into one dict
-  set_fact:
-    app_configs: "{{ dict(default_configs.results | json_query('[].[item, ansible_facts.default_config]')) }}"
+- name: "print app_service_configs"
+  debug:
+    msg: "{{item.key}}={{item.value}}"
+  with_dict: "{{ app_service_configs }}"
 
+#
+#- name: Combine configs into one dict
+#  set_fact:
+#    app_configs: "{{ app_configs|d({}) | combine({ item: hostvars[inventory_hostname]['app_service_configs__'+item]|d({}) }) }}"
+#  with_items: "{{ app_services }}"
+#
 ## Note that app_config_dirs and values within app_firewalld_ports do not get dereferenced
 ## perhaps related to :
 ## https://github.com/ansible/ansible/issues/36024
-- name: "print app_configs - after 2nd method attempt to dereference"
-  debug:
-    var: app_configs
-
+#- name: "print app_configs - after 1st method attempt to dereference"
+#  debug:
+#    var: app_configs
+#
+### try using method described here:
+### https://stackoverflow.com/questions/45285574/ansible-include-vars-into-dictionary
+#- name: Set the app services vars
+#  include_vars:
+#    file: "app-services/{{ item }}.yml"
+#    name: "default_config"
+#  with_items: "{{ app_services }}"
+#  register: default_configs
+#
+#- name: Combine configs into one dict
+#  set_fact:
+#    app_configs: "{{ dict(default_configs.results | json_query('[].[item, ansible_facts.default_config]')) }}"
+#
+### Note that app_config_dirs and values within app_firewalld_ports do not get dereferenced
+### perhaps related to :
+### https://github.com/ansible/ansible/issues/36024
+#- name: "print app_configs - after 2nd method attempt to dereference"
+#  debug:
+#    var: app_configs
+#
