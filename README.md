@@ -1,5 +1,5 @@
 # ansible-template
-Example for using Ansible for Network Configuration Templates
+Example for using Ansible for Application Configuration Templates
 
 ## Using this repository
 

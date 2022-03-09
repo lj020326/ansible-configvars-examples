@@ -27,6 +27,10 @@
   with_items: "{{ app_services }}"
   register: default_configs
 
+- name: "print default_configs - after 2nd method"
+  debug:
+    var: default_configs
+
 - name: Combine configs into one dict
   set_fact:
     app_configs: "{{ dict(default_configs.results | json_query('[].[item, ansible_facts.default_config]')) }}"
