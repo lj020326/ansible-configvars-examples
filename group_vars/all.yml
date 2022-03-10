@@ -30,8 +30,6 @@ ca_static_configs:
 ca_internal_domains_dynamic: "{{ groups['ca_internal_domain'] | map('extract', hostvars, ['internal_domain']) | select('defined') | unique }}"
 ca_routes_dynamic: "{{ groups['ca_internal_domain'] | map('extract', hostvars, ['ca_service_route']) | select('defined') | unique | d([]) }}"
 
-ca_internal_domains_dynamic: "{{ ca_internal_domains_dynamic|d([]) + ca_routes_dynamic|d([]) }}"
-
 ca_intermediate_certs_list_dynamic: |
   [
     {% for domain in ca_internal_domains_dynamic %}
