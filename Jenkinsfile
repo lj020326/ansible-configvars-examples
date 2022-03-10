@@ -3,7 +3,4 @@
 //@Library("pipeline-automation-lib@develop")_
 @Library("pipeline-automation-lib")_
 
-Map config = [:]
-config.gitRepoUrl = "https://github.com/lj020326/ansible-configvars-examples.git"
-
-runAnsibleDevJob(config)
+runAnsibleDevJob()
