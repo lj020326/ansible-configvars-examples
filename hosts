@@ -1,34 +1,37 @@
 localhost ansible_connection=local
 
 [ca_domain:children]
-ca_domain_int_admin
-ca_domain_int_apps
+linux_server
+
+[linux_server]
+localhost
+admin01
+admin02
+db01
+media01
+web01
+web02
+web03
 
 [ca_domain_service_route:children]
-admin
-db
-web
-media
+ca_route_admin
+ca_route_db
+ca_route_web
+ca_route_media
 
-[ca_domain_int_admin:children]
-admin
-
-[ca_domain_int_apps:children]
-web
-db
-media
-
-[admin]
+[ca_route_admin]
 localhost
 admin01
 admin02
 
-[db]
+[ca_route_db]
 db01
 
-[web]
+[ca_route_media]
+media01
+
+[ca_route_web]
 web01
 web02
+web03
 
-[media]
-media01
