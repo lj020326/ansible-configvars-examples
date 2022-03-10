@@ -1,8 +1,17 @@
 ---
 
 ## https://docs.ansible.com/ansible/latest/collections/ansible/builtin/varnames_lookup.html
-- name: List variables that start with qz_
-  debug: msg="{{ lookup('varnames', '^ca_.+')}}"
+#- name: Get variables that start with ca_
+#  debug: msg="{{ lookup('varnames', '^ca_.+') | to_nice_yaml }}"
+
+- name: List variables that start with ca_
+  debug: msg="{{ item.0 }}: {{ item.1 }}"
+#  loop: "{{ lookup('varnames', '^ca_.+')}}"
+  with_nested:
+    - "{{ groups['ca_domain_service_route'] }}"
+    - "{{ lookup('varnames', '^ca_.+') }}"
+  loop_control:
+    label: "{{ item.0 }} - {{ item.1 }}"
 
 - name: "Check that service routes are correctly defined"
   assert:
