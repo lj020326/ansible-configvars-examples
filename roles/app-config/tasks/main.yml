@@ -5,8 +5,8 @@
 #  debug: msg="{{ lookup('varnames', '^ca_.+') | to_nice_yaml }}"
 
 - name: List variables that start with ca_
-  debug: msg="{{ item.0 }}: {{ item.1 }}"
-#  loop: "{{ lookup('varnames', '^ca_.+')}}"
+  debug:
+    msg: "{{ item.0 }}: {{ item.1 }}"
   with_nested:
     - "{{ groups['ca_domain_service_route'] }}"
     - "{{ lookup('varnames', '^ca_.+') }}"
