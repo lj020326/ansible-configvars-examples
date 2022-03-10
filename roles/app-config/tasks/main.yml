@@ -4,15 +4,6 @@
 #- name: Get variables that start with ca_
 #  debug: msg="{{ lookup('varnames', '^ca_.+') | to_nice_yaml }}"
 
-#- name: List variables that start with ca_
-#  debug:
-#    msg: "{{ item.0 }}: {{ item.1 }}"
-#  with_nested:
-#    - "{{ groups['ca_domain_service_route'] }}"
-#    - "{{ lookup('varnames', '^ca_.+') }}"
-#  loop_control:
-#    label: "{{ item.0 }} - {{ item.1 }}"
-
 - name: List variables that start with ca_
   debug:
     msg: "hostvars[{{item}}].ca_service_route={{hostvars[item].ca_service_route}}"
