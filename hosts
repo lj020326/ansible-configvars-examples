@@ -27,7 +27,8 @@ admin02
 db01
 
 [web]
-media01
+web01
+web02
 
 [media]
 media01

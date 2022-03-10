@@ -15,13 +15,19 @@ ca_static_configs:
     ca_common_name: "admin02.{{ ca_internal_domain }}"
     ca_signer_common_name: "ca.{{ ca_internal_domain }}"
     ca_parent_signer_common_name: "ca-root"
-  web:
+  web01:
     ca_service_route: "web.{{ ca_internal_domain }}"
     ca_internal_domain: "{{ ca_internal_domain }}"
-    ca_common_name: "admin.{{ ca_internal_domain }}"
+    ca_common_name: "web01.{{ ca_internal_domain }}"
     ca_signer_common_name: "ca.{{ ca_internal_domain }}"
     ca_parent_signer_common_name: "ca-root"
-  db:
+  web02:
+    ca_service_route: "web.{{ ca_internal_domain }}"
+    ca_internal_domain: "{{ ca_internal_domain }}"
+    ca_common_name: "web02.{{ ca_internal_domain }}"
+    ca_signer_common_name: "ca.{{ ca_internal_domain }}"
+    ca_parent_signer_common_name: "ca-root"
+  db01:
     ca_service_route: "db.{{ ca_internal_domain }}"
     ca_internal_domain: "{{ ca_internal_domain }}"
     ca_common_name: "db01.{{ ca_internal_domain }}"
