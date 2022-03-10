@@ -15,7 +15,7 @@
 
 - name: List variables that start with ca_
   debug:
-    msg: "hostvars[item].ca_service_route={{hostvars[item].ca_service_route}}"
+    msg: "hostvars[{{item}}].ca_service_route={{hostvars[item].ca_service_route}}"
   loop: "{{ groups['ca_domain_service_route'] }}"
 
 - name: "Check that service routes are correctly defined"
