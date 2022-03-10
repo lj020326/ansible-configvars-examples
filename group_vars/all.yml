@@ -3,10 +3,16 @@
 ca_internal_domain: "johnson.int"
 
 ca_static_configs:
-  admin:
+  admin01:
     ca_service_route: "admin.{{ ca_internal_domain }}"
     ca_internal_domain: "{{ ca_internal_domain }}"
-    ca_common_name: "admin.{{ ca_internal_domain }}"
+    ca_common_name: "admin01.{{ ca_internal_domain }}"
+    ca_signer_common_name: "ca.{{ ca_internal_domain }}"
+    ca_parent_signer_common_name: "ca-root"
+  admin02:
+    ca_service_route: "admin.{{ ca_internal_domain }}"
+    ca_internal_domain: "{{ ca_internal_domain }}"
+    ca_common_name: "admin02.{{ ca_internal_domain }}"
     ca_signer_common_name: "ca.{{ ca_internal_domain }}"
     ca_parent_signer_common_name: "ca-root"
   web:
@@ -18,7 +24,13 @@ ca_static_configs:
   db:
     ca_service_route: "db.{{ ca_internal_domain }}"
     ca_internal_domain: "{{ ca_internal_domain }}"
-    ca_common_name: "admin.{{ ca_internal_domain }}"
+    ca_common_name: "db01.{{ ca_internal_domain }}"
+    ca_signer_common_name: "ca.{{ ca_internal_domain }}"
+    ca_parent_signer_common_name: "ca-root"
+  media01:
+    ca_service_route: "media.{{ ca_internal_domain }}"
+    ca_internal_domain: "{{ ca_internal_domain }}"
+    ca_common_name: "media01.{{ ca_internal_domain }}"
     ca_signer_common_name: "ca.{{ ca_internal_domain }}"
     ca_parent_signer_common_name: "ca-root"
   localhost:
