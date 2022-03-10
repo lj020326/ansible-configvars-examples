@@ -7,4 +7,5 @@
 - name: "Check that service routes are correctly defined"
   assert:
     that:
-      - hostvars['localhost'].ca_domain_service_route == ca_static_configs['localhost'].ca_service_route
+      - hostvars['localhost'].ca_service_route == ca_static_configs['localhost'].ca_service_route
+  loop: "{{ groups['ca_domain_service_route'] }}"
