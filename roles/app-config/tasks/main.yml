@@ -22,4 +22,7 @@
   assert:
     that:
       - hostvars[item].ca_service_route == ca_static_configs[item].ca_service_route
+      - hostvars[item].ca_common_name == ca_static_configs[item].ca_common_name
+      - hostvars[item].ca_signer_common_name == ca_static_configs[item].ca_signer_common_name
+      - hostvars[item].ca_parent_signer_common_name == ca_static_configs[item].ca_parent_signer_common_name
   loop: "{{ groups['ca_domain_service_route'] }}"
