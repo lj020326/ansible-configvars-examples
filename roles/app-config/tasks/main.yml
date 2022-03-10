@@ -1,21 +1,10 @@
 ---
 
-- name: Set the app services vars
-  include_vars:
-    file: "app-services/{{ item }}.yml"
-  with_items: "{{ app_services }}"
+## https://docs.ansible.com/ansible/latest/collections/ansible/builtin/varnames_lookup.html
+- name: List variables that start with qz_
+  debug: msg="{{ lookup('varnames', '^ca_.+')}}"
 
-## used approach detailed here:
-##   https://stackoverflow.com/questions/35554415/in-ansible-how-to-combine-variables-from-separate-files-into-one-array
-##    response: https://stackoverflow.com/a/63268576
-##   https://serverfault.com/questions/685673/appending-to-lists-or-adding-keys-to-dictionaries-in-ansible
-##   https://docs.ansible.com/ansible/latest/user_guide/complex_data_manipulation.html
-- name: Combine varname configs into one dict
-  set_fact:
-    app_config_dirs: "{{ app_config_dirs|d({}) | combine({ item: lookup('vars', q('varnames','^app_config_dirs__'+item.replace('-','_')+'$')| first)|d({}) }) }}"
-  loop: "{{ app_services }}"
-
-- name: "print app_configs - after dereference"
-  debug:
-    var: app_config_dirs
-
+- name: "Check that service routes are correctly defined"
+  assert:
+    that:
+      - hostvars['localhost'].ca_domain_service_route ==

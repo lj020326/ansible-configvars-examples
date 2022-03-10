@@ -1,0 +1,4 @@
+---
+
+ca_route_prefix: "{{ inventory_shortname }}"
+ca_service_route: "{{ ca_route_prefix }}.{{ ca_internal_domain_name }}"

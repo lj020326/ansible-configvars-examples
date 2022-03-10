@@ -1,8 +1,7 @@
 ---
-app_base_dir: /usr/local
 
-app_services:
-  - app-a
-  - app-b
-  - app-c
+internal_domain: "example.int"
+ca_internal_domain: "{{ internal_domain }}"
+ldap_internal_domain: "{{ internal_domain }}"
+dns_internal_domain: "{{ internal_domain }}"
 

@@ -1,0 +1,60 @@
+---
+
+ca_static_configs:
+  admin:
+    ca_service_route: "admin.example.int"
+    ca_internal_domain: "example.int"
+    ca_common_name: "admin.example.int"
+    ca_signer_common_name: "ca.example.int"
+    ca_parent_signer_common_name: "ca-root"
+  web:
+    ca_service_route: "web.example.int"
+    ca_internal_domain: "example.int"
+    ca_common_name: "admin.example.int"
+    ca_signer_common_name: "ca.example.int"
+    ca_parent_signer_common_name: "ca-root"
+  db:
+    ca_service_route: "db.example.int"
+    ca_internal_domain: "example.int"
+    ca_common_name: "admin.example.int"
+    ca_signer_common_name: "ca.example.int"
+    ca_parent_signer_common_name: "ca-root"
+  localhost:
+    ca_service_route: "admin.example.int"
+    ca_internal_domain: "example.int"
+    ca_common_name: "localhost.example.int"
+    ca_signer_common_name: "ca.example.int"
+    ca_parent_signer_common_name: "ca-root"
+
+
+ca_internal_domains_dynamic: "{{ groups['ca_internal_domain'] | map('extract', hostvars, ['internal_domain']) | select('defined') | unique }}"
+ca_routes_dynamic: "{{ groups['ca_internal_domain'] | map('extract', hostvars, ['ca_service_route']) | select('defined') | unique | d([]) }}"
+
+ca_internal_domains_dynamic: "{{ ca_internal_domains_dynamic|d([]) + ca_routes_dynamic|d([]) }}"
+
+ca_intermediate_certs_list_dynamic: |
+  [
+    {% for domain in ca_internal_domains_dynamic %}
+    {% if domain not in ca_intermediate_certs_config %}
+    {
+      'commonName': "ca.{{ domain }}",
+      'domainName': "{{ domain }}",
+      'signerName': "{{ 'ca.' + ('.').join(ca_internal_domain_name.split('.')[1::]) if ca_internal_domain_name.split('.')|count>2 else ca_root_cn }}"
+    },
+    {% endif %}
+    {% endfor %}
+  ]
+
+#ca_intermediate_certs_list: "{{ ca_intermediate_certs_list_static + ca_intermediate_certs_list_dynamic }}"
+ca_intermediate_certs_list: "{{ ca_intermediate_certs_config.values() | d({}) | list + ca_intermediate_certs_list_dynamic }}"
+
+ca_service_routes_list: |
+  [
+    {% for domain in ca_routes_dynamic %}
+    {
+      'route': "{{ domain }}",
+      'signerName': "ca.{{ domain }}"
+    },
+    {% endfor %}
+  ]
+
