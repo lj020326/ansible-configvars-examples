@@ -9,7 +9,7 @@
     msg: "{{ item.0 }}: {{ item.1 }}"
   with_nested:
     - "{{ groups['ca_domain_service_route'] }}"
-    - "{{ lookup('varnames', '^ca_.+') }}"
+    - "{{ lookup('varnames', '^ca_.+')|list }}"
   loop_control:
     label: "{{ item.0 }} - {{ item.1 }}"
 
