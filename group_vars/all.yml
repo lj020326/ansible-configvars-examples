@@ -1,29 +1,31 @@
 ---
 
+ca_internal_domain: "johnson.int"
+
 ca_static_configs:
   admin:
-    ca_service_route: "admin.example.int"
-    ca_internal_domain: "example.int"
-    ca_common_name: "admin.example.int"
-    ca_signer_common_name: "ca.example.int"
+    ca_service_route: "admin.{{ ca_internal_domain }}"
+    ca_internal_domain: "{{ ca_internal_domain }}"
+    ca_common_name: "admin.{{ ca_internal_domain }}"
+    ca_signer_common_name: "ca.{{ ca_internal_domain }}"
     ca_parent_signer_common_name: "ca-root"
   web:
-    ca_service_route: "web.example.int"
-    ca_internal_domain: "example.int"
-    ca_common_name: "admin.example.int"
-    ca_signer_common_name: "ca.example.int"
+    ca_service_route: "web.{{ ca_internal_domain }}"
+    ca_internal_domain: "{{ ca_internal_domain }}"
+    ca_common_name: "admin.{{ ca_internal_domain }}"
+    ca_signer_common_name: "ca.{{ ca_internal_domain }}"
     ca_parent_signer_common_name: "ca-root"
   db:
-    ca_service_route: "db.example.int"
-    ca_internal_domain: "example.int"
-    ca_common_name: "admin.example.int"
-    ca_signer_common_name: "ca.example.int"
+    ca_service_route: "db.{{ ca_internal_domain }}"
+    ca_internal_domain: "{{ ca_internal_domain }}"
+    ca_common_name: "admin.{{ ca_internal_domain }}"
+    ca_signer_common_name: "ca.{{ ca_internal_domain }}"
     ca_parent_signer_common_name: "ca-root"
   localhost:
-    ca_service_route: "admin.example.int"
-    ca_internal_domain: "example.int"
-    ca_common_name: "localhost.example.int"
-    ca_signer_common_name: "ca.example.int"
+    ca_service_route: "admin.{{ ca_internal_domain }}"
+    ca_internal_domain: "{{ ca_internal_domain }}"
+    ca_common_name: "localhost.{{ ca_internal_domain }}"
+    ca_signer_common_name: "ca.{{ ca_internal_domain }}"
     ca_parent_signer_common_name: "ca-root"
 
 
