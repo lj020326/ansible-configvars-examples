@@ -1,8 +1,8 @@
 ---
 
 ca_root_cn: "ca-example-root"
-ca_internal_domain: "example.int"
-ca_common_name: "{{ inventory_shortname }}.{{ ca_internal_domain_name }}"
-ca_signer_common_name: "ca.{{ ca_internal_domain }}"
-ca_parent_signer_common_name: "{{ 'ca.' + ('.').join(ca_internal_domain.split('.')[1::]) if ca_internal_domain.split('.')|count>2 else ca_root_cn }}"
+ca_domain: "example.int"
+ca_common_name: "{{ inventory_shortname }}.{{ ca_domain }}"
+ca_signer_common_name: "ca.{{ ca_domain }}"
+ca_parent_signer_common_name: "{{ 'ca.' + ('.').join(ca_domain.split('.')[1::]) if ca_domain.split('.')|count>2 else ca_root_cn }}"
 
