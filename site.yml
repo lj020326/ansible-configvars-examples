@@ -1,6 +1,10 @@
 ---
 
-- set_fact:
+
+- name: Apply role
+  gather_facts: no
+  hosts: localhost
+  vars:
     app_configs:
       - name: config1
         src: somewhere/there/is/something
@@ -11,10 +15,6 @@
       - name: config2
         src: somewhere/there/is/something
         dest: somewhereelse/there/is/somethingelse
-
-- name: Apply role
-  gather_facts: no
-  hosts: localhost
   include_role:
     name: app-config
     tasks_from: deploy-configs.yml
