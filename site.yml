@@ -12,9 +12,9 @@
       - name: config2
         src: somewhere/there/is/something
         dest: somewhereelse/there/is/somethingelse
-      - name: config2
-        src: somewhere/there/is/something
-        dest: somewhereelse/there/is/somethingelse
+      - name: config3
+        src: foo/bar/rab/oof
+        dest: blah/bleh/meeh/mah
   tasks:
     - name: deploy app
       include_role:
