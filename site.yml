@@ -16,10 +16,11 @@
         src: somewhere/there/is/something
         dest: somewhereelse/there/is/somethingelse
   tasks:
-    include_role:
-      name: app-config
-      tasks_from: deploy-configs.yml
-  #    public: true
-    loop: "{{ app_configs }}"
-    loop_control:
-      loop_var: app_config
+    - name: deploy app
+      include_role:
+        name: app-config
+        tasks_from: deploy-configs.yml
+    #    public: true
+      loop: "{{ app_configs }}"
+      loop_control:
+        loop_var: app_config
