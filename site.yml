@@ -1,7 +1,24 @@
 ---
 
+- set_fact:
+    app_configs:
+      - name: config1
+        src: somewhere/there/is/something
+        dest: somewhereelse/there/is/somethingelse
+      - name: config2
+        src: somewhere/there/is/something
+        dest: somewhereelse/there/is/somethingelse
+      - name: config2
+        src: somewhere/there/is/something
+        dest: somewhereelse/there/is/somethingelse
+
 - name: Apply role
   gather_facts: no
   hosts: localhost
-  roles:
-   - app-config
+  include_role:
+    name: app-config
+    tasks_from: deploy-configs.yml
+#    public: true
+  loop: "{{ app_configs }}"
+  loop_control:
+    loop_var: app_config

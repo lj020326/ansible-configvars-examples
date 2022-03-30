@@ -1,0 +1,6 @@
+---
+
+- name: display contents of loop variable
+  debug:
+    var: app_config
+
